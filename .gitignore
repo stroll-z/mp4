@@ -1,0 +1,5 @@
+.vscode/
+cmake-build/
+Lib/
+test/bin/
+.DS_Store
