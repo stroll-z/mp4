@@ -13,8 +13,10 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #include "box/box_base.h"
+#include "protocol/ds_base.h"
 
 namespace mp4 {
 
@@ -28,12 +30,27 @@ class Mp4ParserImpl {
     void dump(void);
 
    private:
-    int parse_box(BaseHeader &, FILE *);
-    int parse_box(LargeHeader &, FILE *);
+    int parse_box(BaseHeader *, FILE *);
+
+private:
+    using Parser = int (Mp4ParserImpl::*)(FILE *, BaseHeader*);
+    using Router = std::unordered_map<uint32_t, Parser>;
+
+    template<typename T, int N>
+    inline uint32_t make_type(const T (&t)[N]) {
+        static_assert(N == 5, "invalid box type");
+        return t[0] | t[1] << 8 | t[2] << 16 | t[3] << 24;
+    }
+
+    int parse_ftyp_box(FILE *, BaseHeader*);
 
    private:
     std::string mp4_file_;
     BoxBase::tree root_;
+    
+    Router router_ = {
+        {make_type("ftyp"), &Mp4ParserImpl::parse_ftyp_box},
+    };
 };
 
 }  // namespace mp4

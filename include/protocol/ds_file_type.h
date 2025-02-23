@@ -14,11 +14,15 @@
 
 namespace mp4 {
 
+#pragma pack(push, 1)
+
 struct ds_file_type {
     BaseHeader bh;
     uint32_t major;
     uint32_t minor;
     uint8_t compatible[0];
 };
+
+#pragma pack(pop)
 
 }  // namespace mp4

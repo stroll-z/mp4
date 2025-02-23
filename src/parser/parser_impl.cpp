@@ -13,8 +13,10 @@
 
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 
 #include "protocol/ds_base.h"
+#include "box/box_file_type.h"
 #include "utils/log.h"
 #include "utils/utils.h"
 
@@ -47,16 +49,16 @@ int Mp4ParserImpl::parse(void) {
         uint64_t box_size = bh.size;
         if (bh.size == 1) {
             LargeHeader lh;
-            memcpy(&lh.bh, &bh, sizeof(bh));
+            lh.fill_base_header(bh);
             if (fread(&lh.large_size, sizeof(lh.large_size), 1, file) != 1) {
                 error("read fail\n");
                 return -1;
             }
             convert_big_to_little_endian((uint8_t *)&lh.large_size, sizeof(lh.large_size));
             box_size = lh.large_size;
-            ret = parse_box(lh, file);
+            ret = parse_box(&lh, file);
         } else {
-            ret = parse_box(bh, file);
+            ret = parse_box(&bh, file);
         }
 
         if (ret != 0) {
@@ -69,12 +71,42 @@ int Mp4ParserImpl::parse(void) {
     return 0;
 }
 
-int Mp4ParserImpl::parse_box(BaseHeader &bh, FILE *file) {
-    
+int Mp4ParserImpl::parse_box(BaseHeader *bh, FILE *file) {
+    bh->dump_type();
+    auto r = router_.find(bh->type);
+    if (r == router_.end()) {
+        warn("not find box parser\n");
+        return 0;
+    }
+
+    auto parser = r->second;
+    (this->*parser)(file, bh);
+    return 0;
 }
 
-int Mp4ParserImpl::parse_box(LargeHeader &bh, FILE *file) { return 0; }
+void Mp4ParserImpl::dump(void) {
+    for (auto iter = root_.cbegin(); iter != root_.cend(); ++iter) {
+        (*iter)->dump();
+    }
+}
 
-void Mp4ParserImpl::dump(void) {}
+int Mp4ParserImpl::parse_ftyp_box(FILE *file, BaseHeader* bh) {
+    uint8_t *data = (uint8_t *)malloc(bh->size);
+    if (!data) {
+        error("OOM:%u\n", bh->size);
+        return -1;
+    }
+    memcpy(data, bh, sizeof(BaseHeader));
+    auto gc = std::shared_ptr<uint8_t>(data, free);
+
+    if (fread(data+sizeof(BaseHeader), bh->size - sizeof(BaseHeader), 1, file)!=1) {
+        error("read file fail\n");
+        return -1;
+    }
+
+    BoxBase::node sp = std::make_shared<BoxFileType>();
+    root_.push_back(sp);
+    return sp->parse(data, bh->size);
+}
 
 }  // namespace mp4
