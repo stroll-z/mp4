@@ -17,6 +17,7 @@
 
 #include "box/box_base.h"
 #include "protocol/ds_base.h"
+#include "utils/utils.h"
 
 namespace mp4 {
 
@@ -35,14 +36,11 @@ class Mp4ParserImpl {
 private:
     using Parser = int (Mp4ParserImpl::*)(FILE *, BaseHeader*);
     using Router = std::unordered_map<uint32_t, Parser>;
+    using Data = std::unique_ptr<uint8_t, decltype(free) *>;
 
-    template<typename T, int N>
-    inline uint32_t make_type(const T (&t)[N]) {
-        static_assert(N == 5, "invalid box type");
-        return t[0] | t[1] << 8 | t[2] << 16 | t[3] << 24;
-    }
-
+    Data make_box_data(FILE *, BaseHeader*);
     int parse_ftyp_box(FILE *, BaseHeader*);
+    int parse_moov_box(FILE *, BaseHeader*);
 
    private:
     std::string mp4_file_;
@@ -50,6 +48,7 @@ private:
     
     Router router_ = {
         {make_type("ftyp"), &Mp4ParserImpl::parse_ftyp_box},
+        {make_type("moov"), &Mp4ParserImpl::parse_moov_box},
     };
 };
 

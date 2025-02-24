@@ -46,13 +46,12 @@ void BoxFileType::dump(void) {
         box_->compatible);
 }
 
-std::string BoxFileType::type(void) {
+uint32_t BoxFileType::type(void) {
     if (!box_) {
         error("no parse\n");
-        return "";
+        return 0;
     }
-
-    return std::string((char *)&box_->bh.type, sizeof(box_->bh.type));
+    return box_->bh.type;
 }
 
 }  // namespace mp4

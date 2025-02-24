@@ -12,11 +12,12 @@
 #include "parser_impl.h"
 
 #include <cstdio>
-#include <cstring>
 #include <cstdlib>
+#include <cstring>
 
-#include "protocol/ds_base.h"
 #include "box/box_file_type.h"
+#include "box/box_moov.h"
+#include "protocol/ds_base.h"
 #include "utils/log.h"
 #include "utils/utils.h"
 
@@ -90,23 +91,34 @@ void Mp4ParserImpl::dump(void) {
     }
 }
 
-int Mp4ParserImpl::parse_ftyp_box(FILE *file, BaseHeader* bh) {
+auto Mp4ParserImpl::make_box_data(FILE *file, BaseHeader *bh) -> Data {
     uint8_t *data = (uint8_t *)malloc(bh->size);
     if (!data) {
         error("OOM:%u\n", bh->size);
-        return -1;
+        return Data(nullptr, nullptr);
     }
+
     memcpy(data, bh, sizeof(BaseHeader));
-    auto gc = std::shared_ptr<uint8_t>(data, free);
-
-    if (fread(data+sizeof(BaseHeader), bh->size - sizeof(BaseHeader), 1, file)!=1) {
+    auto gc = Data(data, free);
+    if (fread(data + sizeof(BaseHeader), bh->size - sizeof(BaseHeader), 1, file) != 1) {
         error("read file fail\n");
-        return -1;
+        return Data(nullptr, nullptr);
     }
+    return gc;
+}
 
+int Mp4ParserImpl::parse_ftyp_box(FILE *file, BaseHeader *bh) {
     BoxBase::node sp = std::make_shared<BoxFileType>();
     root_.push_back(sp);
-    return sp->parse(data, bh->size);
+    auto data = make_box_data(file, bh);
+    return sp->parse(data.get(), bh->size);
+}
+
+int Mp4ParserImpl::parse_moov_box(FILE *file, BaseHeader *bh) {
+    BoxBase::node sp = std::make_shared<BoxMoov>();
+    root_.push_back(sp);
+    auto data = make_box_data(file, bh);
+    return sp->parse(data.get(), bh->size);
 }
 
 }  // namespace mp4

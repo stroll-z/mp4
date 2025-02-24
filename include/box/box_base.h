@@ -22,6 +22,7 @@ class BoxBase {
 public:
     using node = std::shared_ptr<BoxBase>;
     using tree = std::vector<node>;
+    using SubRouter = std::unordered_map<uint32_t, node>;
 
 public:
     BoxBase() =default;
@@ -36,7 +37,12 @@ public:
      */
     virtual int parse(uint8_t *data, uint32_t size) =0;
     virtual void dump(void) = 0;
-    virtual std::string type(void) = 0;
+    virtual uint32_t type(void) = 0;
+
+protected:
+    virtual node find_parser(uint32_t type) { return nullptr; }
+
+    int parse_sub_box(uint8_t *data, uint32_t size, tree &sub);
 };
 
 }  // namespace mp4
