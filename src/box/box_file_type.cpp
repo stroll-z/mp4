@@ -12,6 +12,7 @@
 #include "box/box_file_type.h"
 
 #include <cstdlib>
+#include <cstring>
 
 #include "utils/log.h"
 #include "utils/utils.h"
