@@ -5,7 +5,7 @@ project(MP4 CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_compile_options(-Wall)
+add_compile_options(-Wall -Werror)
 
 add_compile_options(-g)
 # 调试时开
