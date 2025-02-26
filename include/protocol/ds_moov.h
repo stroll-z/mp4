@@ -21,7 +21,27 @@ template<typename T>
 struct ds_movie_header {
     FullHeader fh;
     T t;
+    uint32_t rate;
+    uint16_t volume;
+    uint16_t reserved;
+    uint32_t reserved1[2];
+    uint32_t matrix[9];
+    uint32_t pre_defined[6];
+    uint32_t next_track_id;
+};
 
+struct ds_mvhd_info_v0 {
+    uint32_t create_time;
+    uint32_t modify_time;
+    uint32_t time_scale;
+    uint32_t duration;
+};
+
+struct ds_mvhd_info_v1 {
+    uint64_t create_time;
+    uint64_t modify_time;
+    uint32_t time_scale;
+    uint64_t duration;
 };
 
 #pragma pack(pop)
