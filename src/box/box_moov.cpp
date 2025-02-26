@@ -34,10 +34,10 @@ auto BoxMoov::find_parser(uint32_t type) -> node {
     return nullptr;
 }
 
-int BoxMediaHeader::parse(uint8_t *data, uint32_t size) { return 0; }
+int BoxMovieHeader::parse(uint8_t *data, uint32_t size) { return 0; }
 
-void BoxMediaHeader::dump(void) {}
+void BoxMovieHeader::dump(void) {}
 
-uint32_t BoxMediaHeader::type(void) { return 0; }
+uint32_t BoxMovieHeader::type(void) { return 0; }
 
 } // namespace mp4

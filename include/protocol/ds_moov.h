@@ -17,7 +17,10 @@ namespace mp4 {
 
 #pragma pack(push, 1)
 
-struct ds_media_header {
+template<typename T>
+struct ds_movie_header {
+    FullHeader fh;
+    T t;
 
 };
 

@@ -17,10 +17,10 @@
 namespace mp4 {
 
 
-class BoxMediaHeader: public BoxBase {
+class BoxMovieHeader: public BoxBase {
 public:
-    BoxMediaHeader() =default;
-    ~BoxMediaHeader() override = default;
+    BoxMovieHeader() =default;
+    ~BoxMovieHeader() override = default;
 
     int parse(uint8_t *data, uint32_t size) override;
     void dump(void) override;
@@ -42,7 +42,7 @@ protected:
 private:
     tree sub_;
     SubRouter sub_router_ = {
-        {make_type("mvhd"), std::make_shared<BoxMediaHeader>()},
+        {make_type("mvhd"), std::make_shared<BoxMovieHeader>()},
     };
 };
 
