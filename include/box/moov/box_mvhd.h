@@ -22,8 +22,10 @@ class BoxMovieHeader : public BoxBase {
     ~BoxMovieHeader() override = default;
 
     int parse(uint8_t *data, uint32_t size) override;
+
     void dump(void) override;
-    uint32_t type(void) override;
+
+    uint32_t type(void) override { return make_type("mvhd"); }
 
    private:
     template <typename T>

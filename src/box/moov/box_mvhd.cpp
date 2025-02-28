@@ -73,6 +73,4 @@ void BoxMovieHeader::dump_box(void) {
     log("next track id:%u\n", box_.v0.next_track_id);
 }
 
-uint32_t BoxMovieHeader::type(void) { return 0; }
-
 }  // namespace mp4
