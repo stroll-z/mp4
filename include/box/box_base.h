@@ -43,7 +43,21 @@ public:
 protected:
     virtual node find_parser(uint32_t type) { return nullptr; }
 
+    node find_parser_impl(uint32_t type, SubRouter &router) {
+        auto iter = router.find(type);
+        if (iter == router.end()) {
+            return nullptr;
+        }
+        return iter->second;
+    }
+
     int parse_sub_box(uint8_t *data, uint32_t size, tree &sub);
+
+    void dump_sub_box(tree &sub) {
+        for (auto iter = sub.begin(); iter != sub.end(); ++iter) {
+            (*iter)->dump();
+        }
+    }
 };
 
 }  // namespace mp4

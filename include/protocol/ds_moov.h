@@ -30,14 +30,14 @@ struct ds_movie_header {
     uint32_t next_track_id;
 };
 
-struct ds_mvhd_info_v0 {
+struct ds_movie_info_v0 {
     uint32_t create_time;
     uint32_t modify_time;
     uint32_t time_scale;
     uint32_t duration;
 };
 
-struct ds_mvhd_info_v1 {
+struct ds_movie_info_v1 {
     uint64_t create_time;
     uint64_t modify_time;
     uint32_t time_scale;

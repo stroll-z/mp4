@@ -13,6 +13,7 @@
 
 #include <cstdint>
 #include <utility>
+#include <ctime>
 
 namespace mp4 {
 
@@ -28,5 +29,9 @@ inline bool is_big_endian(void) {
 }
 
 void convert_big_to_little_endian(uint8_t *data, int len);
+
+inline time_t make_mp4_time(uint64_t t) {
+    return (time_t)t + (-2082873600); 
+}
 
 }  // namespace mp4
