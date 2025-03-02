@@ -12,6 +12,7 @@
 #include "box/moov/box_mvhd.h"
 
 #include <cinttypes>
+#include <cstring>
 
 #include "utils/log.h"
 #include "utils/utils.h"

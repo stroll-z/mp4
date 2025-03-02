@@ -12,6 +12,7 @@
 #pragma once
 
 #include "box/box_base.h"
+#include "utils/utils.h"
 #include "protocol/ds_moov.h"
 
 namespace mp4 {
