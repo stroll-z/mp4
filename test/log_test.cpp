@@ -12,7 +12,7 @@
 #include "utils/log.h"
 
 int main(int argc, char *argv[]) {
-    log("normal message\n");
+    trace("normal message\n");
     warn("warning message\n");
     error("error message\n");
 

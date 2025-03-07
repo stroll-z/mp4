@@ -28,7 +28,7 @@ struct BaseHeader {
     }
 
     void dump_type(void) {
-        log("type:%c%c%c%c\n", ((char *)&type)[0], ((char *)&type)[1], ((char *)&type)[2], ((char *)&type)[3]);
+        trace("type:%c%c%c%c\n", ((char *)&type)[0], ((char *)&type)[1], ((char *)&type)[2], ((char *)&type)[3]);
     }
 };
 

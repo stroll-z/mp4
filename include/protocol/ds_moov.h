@@ -44,6 +44,36 @@ struct ds_movie_info_v1 {
     uint64_t duration;
 };
 
+struct ds_track_info_v0 {
+    uint32_t create_time;
+    uint32_t modify_time;
+    uint32_t track_id;
+    uint32_t reserved;
+    uint32_t duration;
+};
+
+struct ds_track_info_v1 {
+    uint64_t create_time;
+    uint64_t modify_time;
+    uint32_t track_id;
+    uint32_t reserved;
+    uint64_t duration;
+};
+
+template<typename T>
+struct ds_track_header {
+    FullHeader fh;
+    T t;
+    uint32_t reserved[2];
+    int16_t layer;
+    int16_t alternate_group;
+    int16_t volume;
+    int16_t reserved1;
+    int matrix[9];
+    uint32_t width;
+    uint32_t height;
+};
+
 #pragma pack(pop)
 
 }  // namespace mp4

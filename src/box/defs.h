@@ -28,7 +28,7 @@
         struct tm datetime;                                                                      \
         time_t ts = (TS);                                                                        \
         localtime_r(&ts, &datetime);                                                             \
-        log("%s: %04d-%02d-%02d %02d:%02d:%02d\n", PREFIX, datetime.tm_year + 1900,                \
+        trace("%s: %04d-%02d-%02d %02d:%02d:%02d\n", PREFIX, datetime.tm_year + 1900,                \
             datetime.tm_mon + 1, datetime.tm_mday, datetime.tm_hour, datetime.tm_min,            \
             datetime.tm_sec);                                                                    \
     } while (0)

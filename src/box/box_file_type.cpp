@@ -31,7 +31,7 @@ int BoxFileType::parse(uint8_t *data, uint32_t size) {
     memcpy(buff, data, box_size);
     buff[box_size] = 0;
     box_ = std::shared_ptr<ds_file_type>((ds_file_type *)buff, free);
-    // log("minor:%x\n", box_->minor);
+    // trace"minor:%x\n", box_->minor);
     convert_big_to_little_endian((uint8_t *)&box_->minor, sizeof(box_->minor));
     return 0;
 }
@@ -42,10 +42,10 @@ void BoxFileType::dump(void) {
     }
 
     char *p = (char *)&box_->major;
-    log("ftyp: ---------------------------------------\n");
-    log("major:%c%c%c%c, minor:%u, compatible:%s\n", p[0], p[1], p[2], p[3], box_->minor,
+    trace("ftyp: ---------------------------------------\n");
+    trace("major:%c%c%c%c, minor:%u, compatible:%s\n", p[0], p[1], p[2], p[3], box_->minor,
         box_->compatible);
-    log("--------------------------------------- :ftyp\n");
+    trace("--------------------------------------- :ftyp\n");
 }
 
 uint32_t BoxFileType::type(void) {

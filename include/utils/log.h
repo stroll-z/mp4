@@ -17,11 +17,11 @@
 
 #define PATH_SEP '/'
 
-#define log(fmt, args...) trace("\e[37m", fmt, ##args)
+#define trace(fmt, args...) trace_f("\e[37m", fmt, ##args)
 
-#define warn(fmt, args...) trace("\e[33m", fmt, ##args)
+#define warn(fmt, args...) trace_f("\e[33m", fmt, ##args)
 
-#define error(fmt, args...) trace("\e[1;31m", fmt, ##args)
+#define error(fmt, args...) trace_f("\e[1;31m", fmt, ##args)
 
 #ifdef LOG_NO_TIMESTEMP
 
@@ -31,7 +31,7 @@
 
 #else
 
-#define trace(COLOR, fmt, args...)                                                               \
+#define trace_f(COLOR, fmt, args...)                                                               \
     do {                                                                                         \
         struct timespec ts;                                                                      \
         clock_gettime(CLOCK_REALTIME, &ts);                                                      \

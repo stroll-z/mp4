@@ -14,6 +14,7 @@
 #include "box/box_base.h"
 #include "protocol/ds_moov.h"
 #include "box/moov/box_mvhd.h"
+#include "box/moov/track/track.h"
 #include "utils/utils.h"
 #include "utils/log.h"
 
@@ -27,9 +28,9 @@ class BoxMoov : public BoxBase {
     int parse(uint8_t *data, uint32_t size) override { return parse_sub_box(data, size, sub_); }
 
     void dump(void) override {
-        log("moov: ---------------------------------------\n");
+        trace("moov: ---------------------------------------\n");
         dump_sub_box(sub_);
-        log("--------------------------------------- :moov\n");
+        trace("--------------------------------------- :moov\n");
     }
 
     uint32_t type(void) override { return make_type("moov"); }
@@ -44,6 +45,7 @@ class BoxMoov : public BoxBase {
 
     SubRouter sub_router_ = {
         {make_type("mvhd"), []() -> Node { return std::make_shared<BoxMovieHeader>();}},
+        {make_type("trak"), []() -> Node { return std::make_shared<BoxTrack>();}},
     };
 };
 

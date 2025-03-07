@@ -51,8 +51,8 @@ int BoxMovieHeader::parse_box(uint8_t *data) {
 }
 
 void BoxMovieHeader::dump(void) {
-    log("mvhd: ---------------------------------------\n");
-    log("version:%u\n", box_.version);
+    trace("mvhd: ---------------------------------------\n");
+    trace("version:%u\n", box_.version);
     if (box_.version == 0) {
         dump_box<ds_movie_header_v0>();
     } else if (box_.version == 1) {
@@ -60,7 +60,7 @@ void BoxMovieHeader::dump(void) {
     } else {
         error("mvhd version error\n");
     }
-    log("--------------------------------------- :mvhd\n");
+    trace("--------------------------------------- :mvhd\n");
 }
 
 template <typename T>
@@ -69,9 +69,9 @@ void BoxMovieHeader::dump_box(void) {
     
     DUMP_MP4_DATETIME("create time", make_mp4_time(pt->t.create_time));
     DUMP_MP4_DATETIME("create time", make_mp4_time(pt->t.modify_time));
-    log("time scale:%u\n", pt->t.time_scale);
-    log("duration:%" PRIu64 "\n", (uint64_t)pt->t.duration);
-    log("next track id:%u\n", box_.v0.next_track_id);
+    trace("time scale:%u\n", pt->t.time_scale);
+    trace("duration:%" PRIu64 "\n", (uint64_t)pt->t.duration);
+    trace("next track id:%u\n", box_.v0.next_track_id);
 }
 
 }  // namespace mp4

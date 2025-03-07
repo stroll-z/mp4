@@ -15,7 +15,7 @@
 
 using namespace mp4;
 
-void usage() { log("parser mp4_file\n"); }
+void usage() { trace("parser mp4_file\n"); }
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
