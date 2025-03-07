@@ -16,7 +16,7 @@
 
 namespace mp4 {
 
-int BoxBase::parse_sub_box(uint8_t *data, uint32_t size, tree &sub) {
+int BoxBase::parse_sub_box(uint8_t *data, uint32_t size, Tree &sub) {
     uint32_t offset = sizeof(BaseHeader);
     while (offset < size) {
         BaseHeader *bh = (BaseHeader *)(data + offset);

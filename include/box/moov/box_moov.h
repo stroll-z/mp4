@@ -15,6 +15,7 @@
 #include "protocol/ds_moov.h"
 #include "box/moov/box_mvhd.h"
 #include "utils/utils.h"
+#include "utils/log.h"
 
 namespace mp4 {
 
@@ -26,21 +27,23 @@ class BoxMoov : public BoxBase {
     int parse(uint8_t *data, uint32_t size) override { return parse_sub_box(data, size, sub_); }
 
     void dump(void) override {
+        log("moov: ---------------------------------------\n");
         dump_sub_box(sub_);
+        log("--------------------------------------- :moov\n");
     }
 
     uint32_t type(void) override { return make_type("moov"); }
 
    protected:
-    node find_parser(uint32_t type) override {
+    Node find_parser(uint32_t type) override {
         return find_parser_impl(type, sub_router_);
     }
 
    private:
-    tree sub_;
+    Tree sub_;
 
     SubRouter sub_router_ = {
-        {make_type("mvhd"), std::make_shared<BoxMovieHeader>()},
+        {make_type("mvhd"), []() -> Node { return std::make_shared<BoxMovieHeader>();}},
     };
 };
 

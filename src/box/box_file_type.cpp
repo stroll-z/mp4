@@ -42,8 +42,10 @@ void BoxFileType::dump(void) {
     }
 
     char *p = (char *)&box_->major;
-    log("ftyp, major:%c%c%c%c, minor:%u, compatible:%s\n", p[0], p[1], p[2], p[3], box_->minor,
+    log("ftyp: ---------------------------------------\n");
+    log("major:%c%c%c%c, minor:%u, compatible:%s\n", p[0], p[1], p[2], p[3], box_->minor,
         box_->compatible);
+    log("--------------------------------------- :ftyp\n");
 }
 
 uint32_t BoxFileType::type(void) {

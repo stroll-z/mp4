@@ -108,14 +108,14 @@ auto Mp4ParserImpl::make_box_data(FILE *file, BaseHeader *bh) -> Data {
 }
 
 int Mp4ParserImpl::parse_ftyp_box(FILE *file, BaseHeader *bh) {
-    BoxBase::node sp = std::make_shared<BoxFileType>();
+    BoxBase::Node sp = std::make_shared<BoxFileType>();
     root_.push_back(sp);
     auto data = make_box_data(file, bh);
     return sp->parse(data.get(), bh->size);
 }
 
 int Mp4ParserImpl::parse_moov_box(FILE *file, BaseHeader *bh) {
-    BoxBase::node sp = std::make_shared<BoxMoov>();
+    BoxBase::Node sp = std::make_shared<BoxMoov>();
     root_.push_back(sp);
     auto data = make_box_data(file, bh);
     return sp->parse(data.get(), bh->size);

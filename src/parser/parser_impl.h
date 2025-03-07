@@ -44,7 +44,7 @@ private:
 
    private:
     std::string mp4_file_;
-    BoxBase::tree root_;
+    BoxBase::Tree root_;
     
     Router router_ = {
         {make_type("ftyp"), &Mp4ParserImpl::parse_ftyp_box},

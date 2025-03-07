@@ -51,7 +51,7 @@ int BoxMovieHeader::parse_box(uint8_t *data) {
 }
 
 void BoxMovieHeader::dump(void) {
-    log("mvhd: ------------------------------------------\n");
+    log("mvhd: ---------------------------------------\n");
     log("version:%u\n", box_.version);
     if (box_.version == 0) {
         dump_box<ds_movie_header_v0>();
@@ -60,7 +60,7 @@ void BoxMovieHeader::dump(void) {
     } else {
         error("mvhd version error\n");
     }
-    log("end: ------------------------------------------\n");
+    log("--------------------------------------- :mvhd\n");
 }
 
 template <typename T>
