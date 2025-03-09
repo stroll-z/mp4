@@ -28,7 +28,7 @@ inline bool is_big_endian(void) {
     return v >> 1 ? true : false;
 }
 
-void convert_big_to_little_endian(uint8_t *data, int len);
+void convert_b2l_endian(uint8_t *data, int len);
 
 inline time_t make_mp4_time(uint64_t t) {
     return (time_t)t + (-2082873600); 

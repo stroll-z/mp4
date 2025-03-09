@@ -17,7 +17,7 @@
 void test_convert(void) {
     uint32_t val = 0x01000000;
     uint32_t tmp = val;
-    convert_big_to_little_endian((uint8_t *)&val, sizeof(val));
+    convert_b2l_endian((uint8_t *)&val, sizeof(val));
     trace("src:%x\ndst:%x\n", tmp, val);
 }
 

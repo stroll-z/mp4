@@ -23,12 +23,12 @@ int BoxMovieHeader::parse(uint8_t *data, uint32_t size) {
     int ret = 0;
     FullHeader *fh = (FullHeader *)data;
     if (fh->version == 0) {
-        CHECK_MVHD_SIZE(sizeof(box_.v0), size);
+        CHECK_BOX_SIZE(sizeof(box_.v0), size);
         box_.version = 0;
         memcpy(&box_.v0, data, size);
         ret = parse_box<ds_movie_header_v0>((uint8_t *)&box_.v0);
     } else if (fh->version == 1) {
-        CHECK_MVHD_SIZE(sizeof(box_.v1), size);
+        CHECK_BOX_SIZE(sizeof(box_.v1), size);
         box_.version = 1;
         memcpy(&box_.v1, data, size);
         ret = parse_box<ds_movie_header_v1>((uint8_t *)&box_.v1);
@@ -42,11 +42,9 @@ int BoxMovieHeader::parse(uint8_t *data, uint32_t size) {
 template <typename T>
 int BoxMovieHeader::parse_box(uint8_t *data) {
     T *mvhd = (T *)data;
-    convert_big_to_little_endian((uint8_t *)&mvhd->t.create_time, sizeof(mvhd->t.create_time));
-    convert_big_to_little_endian((uint8_t *)&mvhd->t.modify_time, sizeof(mvhd->t.modify_time));
-    convert_big_to_little_endian((uint8_t *)&mvhd->t.time_scale, sizeof(mvhd->t.time_scale));
-    convert_big_to_little_endian((uint8_t *)&mvhd->t.duration, sizeof(mvhd->t.duration));
-    convert_big_to_little_endian((uint8_t *)&mvhd->next_track_id, sizeof(mvhd->next_track_id));
+
+    convert_movie_info(mvhd->t);
+    convert_b2l_endian((uint8_t *)&mvhd->next_track_id, sizeof(mvhd->next_track_id));
     return 0;
 }
 

@@ -32,7 +32,7 @@ int BoxFileType::parse(uint8_t *data, uint32_t size) {
     buff[box_size] = 0;
     box_ = std::shared_ptr<ds_file_type>((ds_file_type *)buff, free);
     // trace"minor:%x\n", box_->minor);
-    convert_big_to_little_endian((uint8_t *)&box_->minor, sizeof(box_->minor));
+    convert_b2l_endian((uint8_t *)&box_->minor, sizeof(box_->minor));
     return 0;
 }
 

@@ -12,12 +12,16 @@
 #pragma once
 
 #include "ds_base.h"
+#include "utils/utils.h"
+
+#include <type_traits>
+
 
 namespace mp4 {
 
 #pragma pack(push, 1)
 
-template<typename T>
+template <typename T>
 struct ds_movie_header {
     FullHeader fh;
     T t;
@@ -60,7 +64,7 @@ struct ds_track_info_v1 {
     uint64_t duration;
 };
 
-template<typename T>
+template <typename T>
 struct ds_track_header {
     FullHeader fh;
     T t;
@@ -74,6 +78,46 @@ struct ds_track_header {
     uint32_t height;
 };
 
+struct ds_edls_info_v0 {
+    uint32_t segment_duration;
+    int32_t media_time;
+    int16_t integer;
+    int16_t fraction;
+};
+
+struct ds_edls_info_v1 {
+    uint64_t segment_duration;
+    int32_t media_time;
+    int16_t integer;
+    int16_t fraction;
+};
+
+template <typename T>
+struct ds_edit_list {
+    FullHeader fh;
+    uint32_t count;
+    T t[0];
+};
+
+template<typename T>
+struct ds_media_header {
+    FullHeader fh;
+    T t;    //<  ds_movie_info_v0 or ds_movie_info_v1
+    uint16_t language;
+    uint16_t pre_defined;
+};
+
 #pragma pack(pop)
+
+template<typename T>
+void convert_movie_info(T &info) {
+    static_assert(std::is_same<T, ds_movie_info_v0>::value || std::is_same<T, ds_movie_info_v1>::value,
+                  "T must be ds_movie_info_v0 or ds_movie_info_v1");
+                  
+    convert_b2l_endian((uint8_t *)&info.create_time, sizeof(info.create_time));
+    convert_b2l_endian((uint8_t *)&info.modify_time, sizeof(info.modify_time));
+    convert_b2l_endian((uint8_t *)&info.time_scale, sizeof(info.time_scale));
+    convert_b2l_endian((uint8_t *)&info.duration, sizeof(info.duration));
+}
 
 }  // namespace mp4

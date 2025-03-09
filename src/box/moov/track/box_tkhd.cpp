@@ -21,11 +21,11 @@ namespace mp4 {
 int BoxTrackHeader::parse(uint8_t *data, uint32_t size) {
     FullHeader *fh = (FullHeader *)data;
     if (fh->version == 0) {
-        CHECK_MVHD_SIZE(sizeof(ds_track_header_v0), size);
+        CHECK_BOX_SIZE(sizeof(ds_track_header_v0), size);
         box_.ver = 0;
         return parse_box<ds_track_header_v0>(data, size);
     } else if (fh->version == 1) {
-        CHECK_MVHD_SIZE(sizeof(ds_track_header_v1), size);
+        CHECK_BOX_SIZE(sizeof(ds_track_header_v1), size);
         box_.ver = 1;
         return parse_box<ds_track_header_v0>(data, size);
     }
@@ -39,20 +39,21 @@ int BoxTrackHeader::parse_box(uint8_t *data, uint32_t size) {
     T *box = (T *)&box_.box;
     memcpy(box, data, size);
     parse_tkhd_info(box->t);
-    convert_big_to_little_endian((uint8_t*)&box->layer, sizeof(box->layer));
-    convert_big_to_little_endian((uint8_t*)&box->alternate_group, sizeof(box->alternate_group));
-    convert_big_to_little_endian((uint8_t*)&box->volume, sizeof(box->volume));
-    convert_big_to_little_endian((uint8_t*)&box->width, sizeof(box->width));
-    convert_big_to_little_endian((uint8_t*)&box->height, sizeof(box->height));
+    
+    convert_b2l_endian((uint8_t*)&box->layer, sizeof(box->layer));
+    convert_b2l_endian((uint8_t*)&box->alternate_group, sizeof(box->alternate_group));
+    convert_b2l_endian((uint8_t*)&box->volume, sizeof(box->volume));
+    convert_b2l_endian((uint8_t*)&box->width, sizeof(box->width));
+    convert_b2l_endian((uint8_t*)&box->height, sizeof(box->height));
     return 0;
 }
 
 template <typename T>
 int BoxTrackHeader::parse_tkhd_info(T &info) {
-    convert_big_to_little_endian((uint8_t*)&info.create_time, sizeof(info.create_time));
-    convert_big_to_little_endian((uint8_t*)&info.modify_time, sizeof(info.modify_time));
-    convert_big_to_little_endian((uint8_t*)&info.track_id, sizeof(info.track_id));
-    convert_big_to_little_endian((uint8_t*)&info.duration, sizeof(info.duration));
+    convert_b2l_endian((uint8_t*)&info.create_time, sizeof(info.create_time));
+    convert_b2l_endian((uint8_t*)&info.modify_time, sizeof(info.modify_time));
+    convert_b2l_endian((uint8_t*)&info.track_id, sizeof(info.track_id));
+    convert_b2l_endian((uint8_t*)&info.duration, sizeof(info.duration));
     return 0;
 }
 

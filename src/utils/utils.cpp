@@ -14,7 +14,7 @@
 
 namespace mp4 {
 
-void convert_big_to_little_endian(uint8_t *data, int len) {
+void convert_b2l_endian(uint8_t *data, int len) {
     if (is_big_endian()) {
         return;
     }

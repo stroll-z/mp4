@@ -15,6 +15,8 @@
 #include "utils/log.h"
 #include "utils/utils.h"
 #include "tkhd.h"
+#include "edit.h"
+#include "media.h"
 
 namespace mp4 {
 
@@ -41,6 +43,8 @@ class BoxTrack : public BoxBase {
 
     SubRouter sub_router_ = {
         {make_type("tkhd"), []() -> Node { return std::make_shared<BoxTrackHeader>(); }},
+        {make_type("edts"), []() -> Node { return std::make_shared<BoxEdit>(); }},
+        {make_type("mdia"), []() -> Node { return std::make_shared<BoxMedia>(); }},
     };
 };
 

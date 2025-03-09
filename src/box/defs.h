@@ -15,7 +15,7 @@
 
 #include "utils/log.h"
 
-#define CHECK_MVHD_SIZE(S, D)                                                                    \
+#define CHECK_BOX_SIZE(S, D)                                                                    \
     do {                                                                                         \
         if ((S) != (D)) {                                                                        \
             error("mvhd size error:\n");                                                         \

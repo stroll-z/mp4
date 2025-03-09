@@ -40,7 +40,7 @@ int Mp4ParserImpl::parse(void) {
             break;
         }
 
-        convert_big_to_little_endian((uint8_t *)&bh.size, sizeof(bh.size));
+        convert_b2l_endian((uint8_t *)&bh.size, sizeof(bh.size));
         if (bh.size == 0) {
             warn("mp4 file end\n");
             break;
@@ -55,7 +55,7 @@ int Mp4ParserImpl::parse(void) {
                 error("read fail\n");
                 return -1;
             }
-            convert_big_to_little_endian((uint8_t *)&lh.large_size, sizeof(lh.large_size));
+            convert_b2l_endian((uint8_t *)&lh.large_size, sizeof(lh.large_size));
             box_size = lh.large_size;
             ret = parse_box(&lh, file);
         } else {
