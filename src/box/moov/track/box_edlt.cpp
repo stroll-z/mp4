@@ -14,6 +14,7 @@
 #include "utils/utils.h"
 
 #include <cstdlib>
+#include <cstring>
 #include <cinttypes>
 
 namespace mp4 {
