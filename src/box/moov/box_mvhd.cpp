@@ -16,7 +16,7 @@
 
 #include "utils/log.h"
 #include "utils/utils.h"
-#include "../defs.h"
+#include "mp4_defs.h"
 
 namespace mp4 {
 int BoxMovieHeader::parse(uint8_t *data, uint32_t size) {

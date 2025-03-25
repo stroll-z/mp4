@@ -9,7 +9,7 @@
  *
  */
 
-#include "../../defs.h"
+#include "mp4_defs.h"
 #include "box/moov/track/media.h"
 
 #include <cinttypes>

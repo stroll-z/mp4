@@ -9,7 +9,7 @@
  *
  */
 
-#include "box/box_file_type.h"
+#include "box/file_type.h"
 
 #include <cstdlib>
 #include <cstring>

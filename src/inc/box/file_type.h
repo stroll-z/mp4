@@ -1,5 +1,5 @@
 /**
- * @file box_file_type.h
+ * @file file_type.h
  * @author stroll (116356647@qq.com)
  * @brief
  * @version 0.1
@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "box_base.h"
+#include "base.h"
 #include "protocol/ds_file_type.h"
 
 namespace mp4 {

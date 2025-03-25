@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "box/box_base.h"
+#include "box/base.h"
 #include "protocol/ds_moov.h"
 #include "box/moov/box_mvhd.h"
 #include "box/moov/track/track.h"

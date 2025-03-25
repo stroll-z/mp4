@@ -9,7 +9,7 @@
  *
  */
 
-#include "../../defs.h"
+#include "mp4_defs.h"
 #include "box/moov/track/tkhd.h"
 #include "utils/log.h"
 

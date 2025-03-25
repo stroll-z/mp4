@@ -9,7 +9,7 @@
  *
  */
 
-#include "box/box_base.h"
+#include "box/base.h"
 
 #include "protocol/ds_base.h"
 #include "utils/utils.h"
