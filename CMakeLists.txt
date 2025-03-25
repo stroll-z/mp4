@@ -12,6 +12,7 @@ add_compile_options(-g)
 add_compile_options(-O1)
 
 include_directories(include)
+include_directories(src/inc)
 
 add_subdirectory(src src)
 add_subdirectory(test test)
