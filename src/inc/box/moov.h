@@ -14,7 +14,7 @@
 #include "box/base.h"
 #include "ds/moov.h"
 #include "box/moov/mvhd.h"
-#include "box/moov/track/track.h"
+#include "box/moov/track.h"
 #include "utils/utils.h"
 #include "utils/log.h"
 

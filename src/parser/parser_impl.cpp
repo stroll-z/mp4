@@ -16,7 +16,7 @@
 #include <cstring>
 
 #include "box/file_type.h"
-#include "box/moov/moov.h"
+#include "box/moov.h"
 #include "ds/base.h"
 #include "utils/log.h"
 #include "utils/utils.h"

@@ -14,9 +14,9 @@
 #include "box/base.h"
 #include "utils/log.h"
 #include "utils/utils.h"
-#include "tkhd.h"
-#include "edit.h"
-#include "media.h"
+#include "box/moov/track/tkhd.h"
+#include "box/moov/track/edit.h"
+#include "box/moov/track/media.h"
 
 namespace mp4 {
 

@@ -2,8 +2,6 @@
 aux_source_directory(. SRC_LISTS)
 aux_source_directory(utils SRC_LISTS)
 aux_source_directory(box SRC_LISTS)
-aux_source_directory(box/moov/ SRC_LISTS)
-aux_source_directory(box/moov/track SRC_LISTS)
 aux_source_directory(parser SRC_LISTS)
 
 
