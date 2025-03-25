@@ -9,14 +9,14 @@
  *
  */
 
-#include "box/moov/box_mvhd.h"
+#include "box/moov/mvhd.h"
 
 #include <cinttypes>
 #include <cstring>
 
+#include "mp4_defs.h"
 #include "utils/log.h"
 #include "utils/utils.h"
-#include "mp4_defs.h"
 
 namespace mp4 {
 int BoxMovieHeader::parse(uint8_t *data, uint32_t size) {
@@ -64,7 +64,7 @@ void BoxMovieHeader::dump(void) {
 template <typename T>
 void BoxMovieHeader::dump_box(void) {
     T *pt = (T *)&box_.v0;
-    
+
     DUMP_MP4_DATETIME("create time", make_mp4_time(pt->t.create_time));
     DUMP_MP4_DATETIME("create time", make_mp4_time(pt->t.modify_time));
     trace("time scale:%u\n", pt->t.time_scale);

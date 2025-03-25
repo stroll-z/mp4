@@ -1,5 +1,5 @@
 /**
- * @file box_moov.h
+ * @file moov.h
  * @author stroll (116356647@qq.com)
  * @brief
  * @version 0.1
@@ -13,7 +13,7 @@
 
 #include "box/base.h"
 #include "ds/moov.h"
-#include "box/moov/box_mvhd.h"
+#include "box/moov/mvhd.h"
 #include "box/moov/track/track.h"
 #include "utils/utils.h"
 #include "utils/log.h"
