@@ -12,7 +12,7 @@
 #pragma once
 
 #include "base.h"
-#include "protocol/ds_file_type.h"
+#include "ds/file_type.h"
 
 namespace mp4 {
 

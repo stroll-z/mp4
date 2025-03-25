@@ -11,7 +11,7 @@
 
 #include "box/base.h"
 
-#include "protocol/ds_base.h"
+#include "ds/base.h"
 #include "utils/utils.h"
 
 namespace mp4 {
