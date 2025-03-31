@@ -21,7 +21,8 @@ int BoxBase::parse_sub_box(uint8_t *data, uint32_t size, Tree &sub) {
     while (offset < size) {
         BaseHeader *bh = (BaseHeader *)(data + offset);
         convert_b2l_endian((uint8_t *)&bh->size, sizeof(bh->size));
-        bh->dump_type();
+        dump_box_type(bh->type);
+        
         auto box = find_parser(bh->type);
         if (!box) {
             warn("no parser for box type:%c%c%c%c\n", ((char *)&bh->type)[0],

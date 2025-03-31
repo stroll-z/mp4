@@ -73,7 +73,7 @@ int Mp4ParserImpl::parse(void) {
 }
 
 int Mp4ParserImpl::parse_box(BaseHeader *bh, FILE *file) {
-    bh->dump_type();
+    dump_box_type(bh->type);
     auto r = router_.find(bh->type);
     if (r == router_.end()) {
         warn("not find box parser\n");
