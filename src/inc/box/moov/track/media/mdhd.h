@@ -27,8 +27,6 @@ class BoxMediaHeader : public BoxBase {
 
     void dump(void) override;
 
-    uint32_t type(void) override { return make_type("mdhd"); }
-
    private:
     template <typename T>
     int parse_box(uint8_t *data, uint32_t size);

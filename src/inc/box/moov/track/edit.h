@@ -28,8 +28,6 @@ class BoxEditList : public BoxBase {
 
     void dump(void) override;
 
-    uint32_t type(void) override { return make_type("elst"); }
-
 private:
     template<typename T>
     int parse_box(uint8_t *data, uint32_t size);
@@ -56,8 +54,6 @@ class BoxEdit : public BoxBase {
     }
 
     void dump(void) override { dump_sub_box(sub_); }
-
-    uint32_t type(void) override { return make_type("edts"); }
 
    protected:
     Node find_parser(uint32_t type) override { return find_parser_impl(type, sub_router_); }

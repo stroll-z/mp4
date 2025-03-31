@@ -25,7 +25,6 @@ class BoxTrackHeader : public BoxBase {
 
     int parse(uint8_t *data, uint32_t size) override;
     void dump(void) override;
-    uint32_t type(void) override { return make_type("tkhd"); }
 
    private:
     template <typename T>

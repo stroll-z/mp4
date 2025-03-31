@@ -23,7 +23,6 @@ public:
 
     int parse(uint8_t *data, uint32_t size) override;
     void dump(void) override;
-    uint32_t type(void) override;
 
 private:
     std::shared_ptr<ds_file_type> box_;

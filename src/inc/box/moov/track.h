@@ -36,8 +36,6 @@ class BoxTrack : public BoxBase {
         trace("--------------------------------------- :trak\n");
     }
 
-    uint32_t type(void) override { return make_type("trak"); }
-
    protected:
     Node find_parser(uint32_t type) override { return find_parser_impl(type, sub_router_); }
 

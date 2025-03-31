@@ -40,7 +40,10 @@ class BoxBase {
      */
     virtual int parse(uint8_t *data, uint32_t size) = 0;
     virtual void dump(void) = 0;
-    virtual uint32_t type(void) { return box_type_; };
+
+    uint32_t type(void) noexcept { return box_type_; };
+
+    void set_file_offset(uint64_t offset) noexcept { box_size_ = offset; }
 
    protected:
     virtual Node find_parser(uint32_t type) { return nullptr; }
@@ -62,6 +65,7 @@ class BoxBase {
     }
 
    protected:
+    uint64_t offset_ = -1;   //< box在文件中的偏移
     uint64_t box_size_ = 0;  //< box大小
     uint32_t box_type_ = 0;  //< box类型
     uint32_t flag_ = 0;      //< box标志

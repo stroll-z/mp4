@@ -48,12 +48,4 @@ void BoxFileType::dump(void) {
     trace("--------------------------------------- :ftyp\n");
 }
 
-uint32_t BoxFileType::type(void) {
-    if (!box_) {
-        error("no parse\n");
-        return 0;
-    }
-    return box_->bh.type;
-}
-
 }  // namespace mp4
