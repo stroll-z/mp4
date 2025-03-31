@@ -12,37 +12,37 @@
 #pragma once
 
 #include <cstdint>
-#include <string>
-#include <memory>
-#include <vector>
 #include <functional>
+#include <memory>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace mp4 {
 
 class BoxBase {
-public:
+   public:
     using Node = std::shared_ptr<BoxBase>;
     using Tree = std::vector<Node>;
     using NodeMaker = std::function<Node()>;
     using SubRouter = std::unordered_map<uint32_t, NodeMaker>;
 
-public:
-    BoxBase() =default;
-    virtual ~BoxBase() =default;
+   public:
+    BoxBase() = default;
+    virtual ~BoxBase() = default;
 
     /**
      * @brief 解析数据
-     * 
+     *
      * @param data 原始数据,包括基础头
      * @param size 数据长度
-     * @return int 
+     * @return int
      */
-    virtual int parse(uint8_t *data, uint32_t size) =0;
+    virtual int parse(uint8_t *data, uint32_t size) = 0;
     virtual void dump(void) = 0;
-    virtual uint32_t type(void) = 0;
+    virtual uint32_t type(void) { return box_type_; };
 
-protected:
+   protected:
     virtual Node find_parser(uint32_t type) { return nullptr; }
 
     Node find_parser_impl(uint32_t type, SubRouter &router) {
@@ -60,6 +60,12 @@ protected:
             (*iter)->dump();
         }
     }
+
+   protected:
+    uint64_t box_size_ = 0;  //< box大小
+    uint32_t box_type_ = 0;  //< box类型
+    uint32_t flag_ = 0;      //< box标志
+    uint8_t version_ = 0;    //< box版本
 };
 
 }  // namespace mp4

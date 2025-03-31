@@ -12,20 +12,23 @@
 #pragma once
 
 #include "box/base.h"
-#include "utils/log.h"
-#include "utils/utils.h"
-#include "box/moov/track/tkhd.h"
 #include "box/moov/track/edit.h"
 #include "box/moov/track/media.h"
+#include "box/moov/track/tkhd.h"
+#include "utils/log.h"
+#include "utils/utils.h"
 
 namespace mp4 {
 
 class BoxTrack : public BoxBase {
    public:
-   BoxTrack() = default;
+    BoxTrack() = default;
     ~BoxTrack() override = default;
 
-    int parse(uint8_t *data, uint32_t size) override { return parse_sub_box(data, size, sub_); }
+    int parse(uint8_t *data, uint32_t size) override {
+        uint32_t offset = sizeof(BaseHeader);
+        return parse_sub_box(data + offset, size - offset, sub_);
+    }
 
     void dump(void) override {
         trace("trak: ---------------------------------------\n");

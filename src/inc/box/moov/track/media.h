@@ -24,7 +24,10 @@ class BoxMedia : public BoxBase {
     BoxMedia() = default;
     ~BoxMedia() override = default;
 
-    int parse(uint8_t *data, uint32_t size) override { return parse_sub_box(data, size, sub_); }
+    int parse(uint8_t *data, uint32_t size) override {
+        uint32_t offset = sizeof(BaseHeader);
+        return parse_sub_box(data + offset, size - offset, sub_);
+    }
 
     void dump() override {
         trace("mdia: ---------------------------------------\n");
@@ -34,7 +37,7 @@ class BoxMedia : public BoxBase {
 
     uint32_t type(void) override { return make_type("mdia"); }
 
-protected:
+   protected:
     Node find_parser(uint32_t type) override { return find_parser_impl(type, sub_router_); }
 
    private:

@@ -25,7 +25,10 @@ class BoxMoov : public BoxBase {
     BoxMoov() = default;
     ~BoxMoov() override = default;
 
-    int parse(uint8_t *data, uint32_t size) override { return parse_sub_box(data, size, sub_); }
+    int parse(uint8_t *data, uint32_t size) override {
+        uint32_t offset = sizeof(BaseHeader);
+        return parse_sub_box(data + offset, size - offset, sub_); 
+    }
 
     void dump(void) override {
         trace("moov: ---------------------------------------\n");
