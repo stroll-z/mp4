@@ -11,10 +11,30 @@
 
 #include "box/base.h"
 
+#include <cinttypes>
+
 #include "ds/base.h"
+#include "mp4_defs.h"
 #include "utils/utils.h"
 
 namespace mp4 {
+
+int BoxBase::parse(uint8_t *data, uint32_t size) {
+    BaseHeader *bh = (BaseHeader *)data;
+    uint32_t box_size = bh->size;
+    convert_b2l_endian((uint8_t *)&box_size, sizeof(box_size));
+    box_size_ = box_size;
+    box_type_ = bh->type;
+    return 0;
+}
+
+void BoxBase::dump() {
+    DUMP_BOX_TYPE(box_type_);
+    trace("file offset: %" PRIu64 "\n", offset_);
+    trace("box size: %" PRIu64 "\n", box_size_);
+    trace("version: %d\n", version_);
+    trace("flag: 0x%x\n", flag_);
+}
 
 int BoxBase::parse_sub_box(uint8_t *data, uint32_t size, Tree &sub) {
     uint32_t offset = 0;
@@ -22,7 +42,7 @@ int BoxBase::parse_sub_box(uint8_t *data, uint32_t size, Tree &sub) {
         BaseHeader *bh = (BaseHeader *)(data + offset);
         uint32_t box_size = bh->size;
         convert_b2l_endian((uint8_t *)&box_size, sizeof(box_size));
-        dump_box_type(bh->type);
+        DUMP_BOX_TYPE(bh->type);
         if (box_size + offset > size) {
             error("box size overflow[%u,%u]\n", box_size, size);
             return -1;

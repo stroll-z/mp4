@@ -39,8 +39,4 @@ struct FullHeader: public BaseHeader {
 
 #pragma pack(pop)
 
-inline void dump_box_type(uint32_t type) {
-    trace("type:%c%c%c%c\n", ((char *)&type)[0], ((char *)&type)[1], ((char *)&type)[2], ((char *)&type)[3]);
-}
-
 }  // namespace mp4

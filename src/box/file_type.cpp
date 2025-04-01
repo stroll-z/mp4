@@ -13,6 +13,7 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <cinttypes>
 
 #include "utils/log.h"
 #include "utils/utils.h"
@@ -20,32 +21,27 @@
 namespace mp4 {
 
 int BoxFileType::parse(uint8_t *data, uint32_t size) {
+    BoxBase::parse(data, size);
     ds_file_type *ft = (ds_file_type *)data;
-    uint32_t box_size = ft->bh.size;
-    if (box_size != size) {
-        error("box size overflow[%u,%u]\n", box_size, size);
+    
+    if (box_size_ != size) {
+        error("box size overflow[%" PRIu64 ",%u]\n", box_size_, size);
         return -1; 
     }
-
-    uint8_t *buff = (uint8_t *)malloc(box_size + 1);
-    memcpy(buff, data, box_size);
-    buff[box_size] = 0;
-    box_ = std::shared_ptr<ds_file_type>((ds_file_type *)buff, free);
-    // trace"minor:%x\n", box_->minor);
-    convert_b2l_endian((uint8_t *)&box_->minor, sizeof(box_->minor));
+    major_ = ft->major;
+    minor_ = ft->minor;
+    convert_b2l_endian((uint8_t *)&minor_, sizeof(minor_));
+    compatible_.assign((char *)ft->compatible, size - sizeof(ds_file_type));
     return 0;
 }
 
 void BoxFileType::dump(void) {
-    if (!box_) {
-        return;
-    }
-
-    char *p = (char *)&box_->major;
-    trace("ftyp: ---------------------------------------\n");
-    trace("major:%c%c%c%c, minor:%u, compatible:%s\n", p[0], p[1], p[2], p[3], box_->minor,
-        box_->compatible);
-    trace("--------------------------------------- :ftyp\n");
+    trace("------------------------------ start\n");
+    BoxBase::dump();
+    char *p = (char *)&major_;
+    trace("major:%c%c%c%c, minor:%u\n", p[0], p[1], p[2], p[3], minor_);
+    trace("compatible:%s\n", compatible_.c_str());
+    trace("------------------------------ end\n");
 }
 
 }  // namespace mp4

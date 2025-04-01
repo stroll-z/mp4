@@ -31,23 +31,33 @@ class BoxBase {
     BoxBase() = default;
     virtual ~BoxBase() = default;
 
-    /**
-     * @brief 解析数据
-     *
-     * @param data 原始数据,包括基础头
-     * @param size 数据长度
-     * @return int
-     */
+    /// @brief 解析box, 注意data包括box头部, 数据都是未解析的,包括头部
+    /// @param data 完整的box数据(mdat除外)
+    /// @param size  box数据大小
+    /// @return 0:成功, -1:失败
     virtual int parse(uint8_t *data, uint32_t size) = 0;
-    virtual void dump(void) = 0;
 
+    /// @brief 打印box
+    /// @param void
+    virtual void dump(void) = 0;
+    
+    /// @brief 获取box类型
     uint32_t type(void) noexcept { return box_type_; };
 
-    void set_file_offset(uint64_t offset) noexcept { box_size_ = offset; }
+    /// @brief 设置当前box在文件中的偏移, 为后续定位源数据
+    /// @param offset 文件偏移
+    void set_file_offset(uint64_t offset) noexcept { offset_ = offset; }
 
    protected:
+    /// @brief 通过box类型,查找解析器
+    /// @param type box类型
+    /// @return 
     virtual Node find_parser(uint32_t type) { return nullptr; }
 
+    /// @brief 通过box类型,从指定的router中查找解析器, 一般用于派生类中指定router
+    /// @param type 
+    /// @param router 
+    /// @return 
     Node find_parser_impl(uint32_t type, SubRouter &router) {
         auto iter = router.find(type);
         if (iter == router.end()) {
@@ -56,6 +66,11 @@ class BoxBase {
         return iter->second();
     }
 
+    /// @brief 解析子box
+    /// @param data 
+    /// @param size 
+    /// @param sub 
+    /// @return 
     int parse_sub_box(uint8_t *data, uint32_t size, Tree &sub);
 
     void dump_sub_box(Tree &sub) {

@@ -14,6 +14,8 @@
 #include "base.h"
 #include "ds/file_type.h"
 
+#include <string>
+
 namespace mp4 {
 
 class BoxFileType: public BoxBase {
@@ -25,7 +27,9 @@ public:
     void dump(void) override;
 
 private:
-    std::shared_ptr<ds_file_type> box_;
+    uint32_t major_ = 0;
+    uint32_t minor_ = 0;
+    std::string compatible_;
 };
 
 }  // namespace mp4
