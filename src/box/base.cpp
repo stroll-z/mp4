@@ -36,8 +36,8 @@ void BoxBase::dump() {
     trace("flag: 0x%x\n", flag_);
 }
 
-int BoxBase::parse_sub_box(uint8_t *data, uint32_t size, Tree &sub) {
-    uint32_t offset = 0;
+int BoxBase::parse_sub_box(uint8_t *data, uint32_t size, Tree &sub, uint32_t start_pos) {
+    uint32_t offset = start_pos;
     while (offset < size) {
         BaseHeader *bh = (BaseHeader *)(data + offset);
         uint32_t box_size = bh->size;
@@ -56,6 +56,7 @@ int BoxBase::parse_sub_box(uint8_t *data, uint32_t size, Tree &sub) {
             continue;
         }
 
+        box->set_file_offset(offset_ + offset);
         auto ret = box->parse((uint8_t *)bh, box_size);
         if (ret) {
             error("parse box fail\n");

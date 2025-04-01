@@ -71,7 +71,7 @@ class BoxBase {
     /// @param size 
     /// @param sub 
     /// @return 
-    int parse_sub_box(uint8_t *data, uint32_t size, Tree &sub);
+    int parse_sub_box(uint8_t *data, uint32_t size, Tree &sub, uint32_t start_pos);
 
     void dump_sub_box(Tree &sub) {
         for (auto iter = sub.begin(); iter != sub.end(); ++iter) {

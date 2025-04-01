@@ -35,6 +35,6 @@
 
 #define DUMP_BOX_TYPE(BOX_TYPE)                                                                  \
     do {                                                                                         \
-        trace("type:%c%c%c%c\n", ((char *)&BOX_TYPE)[0], ((char *)&BOX_TYPE)[1],                 \
+        trace("type: [%c%c%c%c]\n", ((char *)&BOX_TYPE)[0], ((char *)&BOX_TYPE)[1],                 \
               ((char *)&BOX_TYPE)[2], ((char *)&BOX_TYPE)[3]);                                   \
     } while (0)

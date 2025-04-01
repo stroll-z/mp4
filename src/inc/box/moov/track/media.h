@@ -26,7 +26,7 @@ class BoxMedia : public BoxBase {
 
     int parse(uint8_t *data, uint32_t size) override {
         uint32_t offset = sizeof(BaseHeader);
-        return parse_sub_box(data + offset, size - offset, sub_);
+        return parse_sub_box(data, size, sub_, offset);
     }
 
     void dump() override {
