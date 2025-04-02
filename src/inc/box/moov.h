@@ -28,7 +28,7 @@ class BoxMoov : public BoxBase {
     int parse(uint8_t *data, uint32_t size) override {
         BoxBase::parse(data, size);
         uint32_t offset = sizeof(BaseHeader);
-        return parse_sub_box(data, size, sub_, offset);
+        return parse_sub_box(data + offset, size - offset, sub_, offset);
     }
 
     void dump(void) override {

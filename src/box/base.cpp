@@ -30,14 +30,15 @@ int BoxBase::parse(uint8_t *data, uint32_t size) {
 
 void BoxBase::dump() {
     DUMP_BOX_TYPE(box_type_);
-    trace("file offset: %" PRIu64 "\n", offset_);
+    trace("file offset: %" PRIu64 "\n", position_);
     trace("box size: %" PRIu64 "\n", box_size_);
     trace("version: %d\n", version_);
     trace("flag: 0x%x\n", flag_);
 }
 
 int BoxBase::parse_sub_box(uint8_t *data, uint32_t size, Tree &sub, uint32_t start_pos) {
-    uint32_t offset = start_pos;
+    uint32_t offset = 0;
+    auto seek = position_ + start_pos;
     while (offset < size) {
         BaseHeader *bh = (BaseHeader *)(data + offset);
         uint32_t box_size = bh->size;
@@ -48,22 +49,23 @@ int BoxBase::parse_sub_box(uint8_t *data, uint32_t size, Tree &sub, uint32_t sta
             return -1;
         }
 
+        offset += box_size;
         auto box = find_parser(bh->type);
         if (!box) {
             warn("no parser for box type:%c%c%c%c\n", ((char *)&bh->type)[0],
                  ((char *)&bh->type)[1], ((char *)&bh->type)[2], ((char *)&bh->type)[3]);
-            offset += box_size;
+            seek += box_size;
             continue;
         }
 
-        box->set_file_offset(offset_ + offset);
+        box->set_file_offset(seek);
+        seek += box_size;
         auto ret = box->parse((uint8_t *)bh, box_size);
         if (ret) {
             error("parse box fail\n");
             return -1;
         }
         sub.push_back(box);
-        offset += box_size;
     }
 
     if (offset != size) {

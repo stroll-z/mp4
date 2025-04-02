@@ -46,7 +46,7 @@ class BoxBase {
 
     /// @brief 设置当前box在文件中的偏移, 为后续定位源数据
     /// @param offset 文件偏移
-    void set_file_offset(uint64_t offset) noexcept { offset_ = offset; }
+    void set_file_offset(uint64_t offset) noexcept { position_ = offset; }
 
    protected:
     /// @brief 通过box类型,查找解析器
@@ -80,7 +80,7 @@ class BoxBase {
     }
 
    protected:
-    uint64_t offset_ = -1;   //< box在文件中的偏移
+    uint64_t position_ = -1;   //< box在文件中的偏移
     uint64_t box_size_ = 0;  //< box大小
     uint32_t box_type_ = 0;  //< box类型
     uint32_t flag_ = 0;      //< box标志
