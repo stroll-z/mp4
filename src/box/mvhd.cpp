@@ -20,7 +20,7 @@
 
 namespace mp4 {
 int BoxMovieHeader::parse(uint8_t *data, uint32_t size) {
-    BoxBase::parse(data, size);
+    parse_base_header(data, size);
     int ret = 0;
     FullHeader *fh = (FullHeader *)data;
     if (fh->version == 0) {
@@ -51,7 +51,7 @@ int BoxMovieHeader::parse_box(uint8_t *data) {
 
 void BoxMovieHeader::dump(void) {
     trace("mvhd: ---------------------------------------\n");
-    BoxBase::dump();
+    dump_header();
     trace("version:%u\n", box_.version);
     if (box_.version == 0) {
         dump_box<ds_movie_header_v0>();

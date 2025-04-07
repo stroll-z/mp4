@@ -15,6 +15,7 @@
 #include "ds/base.h"
 #include "utils/log.h"
 #include "utils/utils.h"
+#include "mp4_defs.h"
 
 namespace mp4 {
 
@@ -24,7 +25,7 @@ class BoxMediaData : public BoxBase {
     ~BoxMediaData() override = default;
 
     int parse(uint8_t *data, uint32_t size) {
-        BoxBase::parse(data, size);
+        parse_base_header(data, size);
         if (box_size_ != 1) {
             return 0;
         }
@@ -36,9 +37,9 @@ class BoxMediaData : public BoxBase {
     }
 
     void dump(void) override {
-        trace("------------------------------ start\n");
-        BoxBase::dump();
-        trace("------------------------------ end\n");
+        DUMP_BOX_FLAG("start", box_type_);
+        dump_header();
+        DUMP_BOX_FLAG("end", box_type_);
     }
 
 };

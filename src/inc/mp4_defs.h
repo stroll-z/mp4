@@ -35,6 +35,12 @@
 
 #define DUMP_BOX_TYPE(BOX_TYPE)                                                                  \
     do {                                                                                         \
-        trace("type: [%c%c%c%c]\n", ((char *)&BOX_TYPE)[0], ((char *)&BOX_TYPE)[1],                 \
+        trace("type: [%c%c%c%c]\n", ((char *)&BOX_TYPE)[0], ((char *)&BOX_TYPE)[1],              \
               ((char *)&BOX_TYPE)[2], ((char *)&BOX_TYPE)[3]);                                   \
+    } while (0)
+
+#define DUMP_BOX_FLAG(PREFIX, TYPE)                                                              \
+    do {                                                                                         \
+        trace("---------------------------[%c%c%c%c] " PREFIX "\n", ((char *)&TYPE)[0],          \
+              ((char *)&TYPE)[1], ((char *)&TYPE)[2], ((char *)&TYPE)[3]);                       \
     } while (0)

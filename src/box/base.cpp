@@ -19,7 +19,7 @@
 
 namespace mp4 {
 
-int BoxBase::parse(uint8_t *data, uint32_t size) {
+int BoxBase::parse_base_header(uint8_t *data, uint32_t size) {
     BaseHeader *bh = (BaseHeader *)data;
     uint32_t box_size = bh->size;
     convert_b2l_endian((uint8_t *)&box_size, sizeof(box_size));
@@ -28,7 +28,15 @@ int BoxBase::parse(uint8_t *data, uint32_t size) {
     return 0;
 }
 
-void BoxBase::dump() {
+int BoxBase::parse_full_header(uint8_t *data, uint32_t size) {
+    parse_base_header(data, size);
+    FullHeader *fh = (FullHeader *)data;
+    version_ = fh->version;
+    // flag_ = fh->flag;
+    return 0;
+}
+
+void BoxBase::dump_header(void) const {
     DUMP_BOX_TYPE(box_type_);
     trace("file offset: %" PRIu64 "\n", position_);
     trace("box size: %" PRIu64 "\n", box_size_);

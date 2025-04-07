@@ -40,6 +40,11 @@ class BoxBase {
     /// @brief 打印box
     /// @param void
     virtual void dump(void) = 0;
+
+    int parse_base_header(uint8_t *data, uint32_t size);
+    int parse_full_header(uint8_t *data, uint32_t size);
+
+    void dump_header(void) const;
     
     /// @brief 获取box类型
     uint32_t type(void) noexcept { return box_type_; };

@@ -17,6 +17,7 @@
 #include "box/moov/track/tkhd.h"
 #include "utils/log.h"
 #include "utils/utils.h"
+#include "mp4_defs.h"
 
 namespace mp4 {
 
@@ -31,9 +32,9 @@ class BoxTrack : public BoxBase {
     }
 
     void dump(void) override {
-        trace("trak: ---------------------------------------\n");
+        DUMP_BOX_FLAG("start", box_type_);
         dump_sub_box(sub_);
-        trace("--------------------------------------- :trak\n");
+        DUMP_BOX_FLAG("end", box_type_);
     }
 
    protected:

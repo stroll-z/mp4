@@ -17,6 +17,7 @@
 #include "box/moov/track.h"
 #include "utils/utils.h"
 #include "utils/log.h"
+#include "mp4_defs.h"
 
 namespace mp4 {
 
@@ -26,16 +27,16 @@ class BoxMoov : public BoxBase {
     ~BoxMoov() override = default;
 
     int parse(uint8_t *data, uint32_t size) override {
-        BoxBase::parse(data, size);
+        parse_base_header(data, size);
         uint32_t offset = sizeof(BaseHeader);
         return parse_sub_box(data + offset, size - offset, sub_, offset);
     }
 
     void dump(void) override {
-        trace("------------------------------ start\n");
-        BoxBase::dump();
+        DUMP_BOX_FLAG("start", box_type_);
+        dump_header();
         dump_sub_box(sub_);
-        trace("------------------------------ end\n");
+        DUMP_BOX_FLAG("end", box_type_);
     }
 
    protected:
