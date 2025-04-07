@@ -28,13 +28,6 @@ class BoxEditList : public BoxBase {
     ~BoxEditList() override = default;
 
     int parse(uint8_t *data, uint32_t size) override {
-#define CHECK_EDLT_SIZE(H, E)                                                                    \
-    do {                                                                                         \
-        if ((H) + count_ * (E) != size) {                                                         \
-            error("vailed box size\n");                                                          \
-            return -1;                                                                           \
-        }                                                                                        \
-    } while (0)
 
         parse_full_header(data, size);
         //< 这里仅想要查看 count值, 所以可以这样强制转换
@@ -43,10 +36,16 @@ class BoxEditList : public BoxBase {
         count_ = box->count;
 
         if (version_ == 0) {
-            CHECK_EDLT_SIZE(sizeof(ds_edit_list_v0), sizeof(ds_edls_info_v0));
+            if (sizeof(ds_edls_info_v0) * count_ + sizeof(ds_edit_list_v0) > size) {
+                error("ds_edit_list_v0 size error, count:%u, size:%u\n", count_, size);
+                return -1;
+            }
             return parse_box<ds_edit_list_v0>(data, size);
         } else if (version_ == 1) {
-            CHECK_EDLT_SIZE(sizeof(ds_edit_list_v1), sizeof(ds_edls_info_v1));
+            if (sizeof(ds_edls_info_v1) * count_ + sizeof(ds_edit_list_v1) > size) {
+                error("ds_edit_list_v0 size error, count:%u, size:%u\n", count_, size);
+                return -1;
+            }
             return parse_box<ds_edit_list_v1>(data, size);
         }
         error("not support ver:%d\n", version_);
