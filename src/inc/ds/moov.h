@@ -107,6 +107,23 @@ struct ds_media_header {
     uint16_t pre_defined;
 };
 
+struct ds_video_media_header {
+    FullHeader fh;
+    uint16_t graphics_mode;
+    uint16_t op_color[3];
+};
+
+struct ds_data_reference {
+    FullHeader fh;
+    uint32_t entry_count;
+    uint8_t data[0];
+};
+
+struct ds_data_entry_url {
+    FullHeader fh;
+    uint8_t location[0];
+};
+
 #pragma pack(pop)
 
 template<typename T>

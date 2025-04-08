@@ -32,7 +32,7 @@ int BoxBase::parse_full_header(uint8_t *data, uint32_t size) {
     parse_base_header(data, size);
     FullHeader *fh = (FullHeader *)data;
     version_ = fh->version;
-    // flag_ = fh->flag;
+    flag_ = fh->flag[0] << 16 | fh->flag[1] << 8 | fh->flag[2];
     return 0;
 }
 

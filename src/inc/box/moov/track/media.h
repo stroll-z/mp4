@@ -13,6 +13,7 @@
 
 #include "box/base.h"
 #include "box/moov/track/media/mdhd.h"
+#include "box/moov/track/media/media_info.h"
 #include "ds/moov.h"
 #include "utils/log.h"
 #include "utils/utils.h"
@@ -47,7 +48,7 @@ class BoxMedia : public BoxBase {
     SubRouter sub_router_ = {
         {make_type("mdhd"), []() -> Node { return std::make_shared<BoxMediaHeader>(); }},
         // {make_type("hdlr"), []() -> Node { return std::make_shared<BoxHandler>(); }},
-        // {make_type("minf"), []() -> Node { return std::make_shared<BoxMediaInfo>(); }},
+        {make_type("minf"), []() -> Node { return std::make_shared<BoxMediaInfo>(); }},
     };
 };
 
